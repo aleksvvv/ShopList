@@ -27,10 +27,25 @@ class ShopListAdapter: Adapter<ShopListAdapter.ShopListHolder>() {
 
     }
 
+    override fun getItemViewType(position: Int): Int {
+        val status = if (shopList[position].enabled){
+            ENABLED
+        } else{
+            DISABLED
+        }
+        return status
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopListHolder {
 
+        val shopItemId = when(viewType){
+            ENABLED -> R.layout.item_shop_enabled
+            DISABLED -> R.layout.item_shop_disabled
+            else -> throw java.lang.RuntimeException("Is not layout")
+        }
+
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_shop_disabled,
+            shopItemId,
             parent,
             false
         )
@@ -46,12 +61,11 @@ class ShopListAdapter: Adapter<ShopListAdapter.ShopListHolder>() {
         holder.tv_text.text = shopList[position].name
         holder.tv_count.text = shopList[position].count.toString()
 
-        if (shopList[position].enabled){
-            holder.tv_text.setTextColor(Color.RED)
-        } else {
-            holder.tv_text.setTextColor(Color.BLACK)
-        }
     }
-
+companion object{
+    const val ENABLED = 100
+    const val DISABLED = 101
+    const val MAX_POOL_SIZE = 10
+}
 
 }
