@@ -2,11 +2,13 @@ package com.bignerdranch.android.shoplist.presentation
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -14,13 +16,17 @@ import com.bignerdranch.android.shoplist.R
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
 class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopListHolder>() {
+    var count = 0
     var onLongClickListener: ((ShopItem) -> Unit)? = null
     var onClickListener: ((ShopItem) -> Unit)? = null
 
     var shopList= listOf<ShopItem>()
    set(value) {
+       val callback = ShopListDiffCallback(shopList,value)
+       val diffResult = DiffUtil.calculateDiff(callback)
+       diffResult.dispatchUpdatesTo(this)
        field = value
-       notifyDataSetChanged()
+
    }
 
 
@@ -56,6 +62,7 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopListHolder>() {
 
     override fun onBindViewHolder(holder: ShopListHolder, position: Int) {
 
+        Log.d("Trest", (++count).toString())
         val shopItem = shopList[position]
         holder.view.setOnLongClickListener {
             onLongClickListener?.invoke(shopItem)
