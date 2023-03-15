@@ -15,7 +15,7 @@ import com.bignerdranch.android.shoplist.domain.ShopItem
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var recycler:RecyclerView
-    private lateinit var adapter: ShopListAdapter
+    private lateinit var shopListAdapter: ShopListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -27,15 +27,28 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this
         ) {
-            adapter.shopList = it
+            shopListAdapter.shopList = it
+
         }
     }
 
     private fun setupRecyclerView(){
         recycler = findViewById(R.id.recycler_view)
-        adapter = ShopListAdapter()
-        recycler.adapter = adapter
-        recycler.recycledViewPool.setMaxRecycledViews(ShopListAdapter.ENABLED,ShopListAdapter.MAX_POOL_SIZE)
-        recycler.recycledViewPool.setMaxRecycledViews(ShopListAdapter.DISABLED,ShopListAdapter.MAX_POOL_SIZE)
+        shopListAdapter = ShopListAdapter()
+        recycler.adapter = shopListAdapter
+        recycler.recycledViewPool.setMaxRecycledViews(
+            ShopListAdapter.ENABLED,
+            ShopListAdapter.MAX_POOL_SIZE
+        )
+        recycler.recycledViewPool.setMaxRecycledViews(
+            ShopListAdapter.DISABLED,
+            ShopListAdapter.MAX_POOL_SIZE
+        )
+        shopListAdapter.onLongClickListener = object : ShopListAdapter.OnLongClickListener{
+            override fun onLongClick(shopItem: ShopItem) {
+                viewModel.changeEnabledState(shopItem)
+            }
+
+        }
     }
 }

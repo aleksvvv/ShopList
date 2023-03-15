@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bignerdranch.android.shoplist.R
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
-class ShopListAdapter: Adapter<ShopListAdapter.ShopListHolder>() {
+class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopListHolder>() {
+    var onLongClickListener: OnLongClickListener? = null
 
     var shopList= listOf<ShopItem>()
    set(value) {
@@ -21,11 +22,7 @@ class ShopListAdapter: Adapter<ShopListAdapter.ShopListHolder>() {
        notifyDataSetChanged()
    }
 
-    class ShopListHolder(view: View): ViewHolder(view){
-        val tv_text = view.findViewById<TextView>(R.id.tv_name)
-        val tv_count = view.findViewById<TextView>(R.id.tv_count)
 
-    }
 
     override fun getItemViewType(position: Int): Int {
         val status = if (shopList[position].enabled){
@@ -58,9 +55,23 @@ class ShopListAdapter: Adapter<ShopListAdapter.ShopListHolder>() {
 
     override fun onBindViewHolder(holder: ShopListHolder, position: Int) {
 
-        holder.tv_text.text = shopList[position].name
-        holder.tv_count.text = shopList[position].count.toString()
+        val shopItem = shopList[position]
+        holder.view.setOnLongClickListener {
+            onLongClickListener?.onLongClick(shopItem)
+            true
+        }
 
+        holder.tv_text.text = shopItem.name
+        holder.tv_count.text = shopItem.count.toString()
+
+    }
+    class ShopListHolder(val view: View): ViewHolder(view){
+        val tv_text = view.findViewById<TextView>(R.id.tv_name)
+        val tv_count = view.findViewById<TextView>(R.id.tv_count)
+
+    }
+    interface OnLongClickListener{
+        fun onLongClick(shopItem: ShopItem)
     }
 companion object{
     const val ENABLED = 100
