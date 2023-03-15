@@ -14,7 +14,8 @@ import com.bignerdranch.android.shoplist.R
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
 class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopListHolder>() {
-    var onLongClickListener: OnLongClickListener? = null
+    var onLongClickListener: ((ShopItem) -> Unit)? = null
+    var onClickListener: ((ShopItem) -> Unit)? = null
 
     var shopList= listOf<ShopItem>()
    set(value) {
@@ -57,8 +58,11 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopListHolder>() {
 
         val shopItem = shopList[position]
         holder.view.setOnLongClickListener {
-            onLongClickListener?.onLongClick(shopItem)
+            onLongClickListener?.invoke(shopItem)
             true
+        }
+        holder.view.setOnClickListener {
+            onClickListener?.invoke(shopItem)
         }
 
         holder.tv_text.text = shopItem.name

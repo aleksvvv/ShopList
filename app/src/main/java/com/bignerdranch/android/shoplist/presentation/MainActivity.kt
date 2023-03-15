@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.shoplist.R
 import com.bignerdranch.android.shoplist.domain.ShopItem
@@ -44,11 +45,42 @@ class MainActivity : AppCompatActivity() {
             ShopListAdapter.DISABLED,
             ShopListAdapter.MAX_POOL_SIZE
         )
-        shopListAdapter.onLongClickListener = object : ShopListAdapter.OnLongClickListener{
-            override fun onLongClick(shopItem: ShopItem) {
-                viewModel.changeEnabledState(shopItem)
+        setOnLongClickListner()
+        setOnClickListner()
+        setSwipeListener()
+    }
+
+    private fun setSwipeListener() {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
             }
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = shopListAdapter.shopList[viewHolder.adapterPosition]
+                viewModel.deleteShopItem(item)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recycler)
+    }
+
+    private fun setOnClickListner() {
+        shopListAdapter.onClickListener = {
+
+        }
+    }
+
+    private fun setOnLongClickListner() {
+        shopListAdapter.onLongClickListener = {
+            viewModel.changeEnabledState(it)
         }
     }
 }
