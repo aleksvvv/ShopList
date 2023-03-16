@@ -1,11 +1,7 @@
 package com.bignerdranch.android.shoplist.presentation
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bignerdranch.android.shoplist.R
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
@@ -56,9 +52,6 @@ class ShopListAdapter: androidx.recyclerview.widget.ListAdapter<ShopItem, ShopIt
 
     }
 
-    interface OnLongClickListener{
-        fun onLongClick(shopItem: ShopItem)
-    }
 companion object{
     const val ENABLED = 100
     const val DISABLED = 101

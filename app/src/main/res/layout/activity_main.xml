@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="Click"
+        android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/add_circle_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

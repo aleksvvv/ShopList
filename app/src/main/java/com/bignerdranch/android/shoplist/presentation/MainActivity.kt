@@ -1,16 +1,14 @@
 package com.bignerdranch.android.shoplist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.shoplist.R
-import com.bignerdranch.android.shoplist.domain.ShopItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,10 +16,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recycler:RecyclerView
     private lateinit var shopListAdapter: ShopListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         setupRecyclerView()
 
@@ -29,7 +28,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.shopList.observe(this
         ) {
             shopListAdapter.submitList(it)
-
+        }
+        val buttonAdd = findViewById<FloatingActionButton>(R.id.plus)
+        buttonAdd.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
         }
     }
 
@@ -45,8 +48,8 @@ class MainActivity : AppCompatActivity() {
             ShopListAdapter.DISABLED,
             ShopListAdapter.MAX_POOL_SIZE
         )
-        setOnLongClickListner()
-        setOnClickListner()
+        setOnLongClickListener()
+        setOnClickListener()
         setSwipeListener()
     }
 
@@ -72,13 +75,14 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recycler)
     }
 
-    private fun setOnClickListner() {
+    private fun setOnClickListener() {
         shopListAdapter.onClickListener = {
-
+            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
+            startActivity(intent)
         }
     }
 
-    private fun setOnLongClickListner() {
+    private fun setOnLongClickListener() {
         shopListAdapter.onLongClickListener = {
             viewModel.changeEnabledState(it)
         }
