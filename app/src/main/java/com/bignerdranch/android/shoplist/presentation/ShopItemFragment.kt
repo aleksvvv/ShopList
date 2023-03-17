@@ -43,7 +43,7 @@ class ShopItemFragment(
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
 
         addTextChangeListener()
-//        launchRightMode()
+        launchRightMode()
         observeViewModel()
     }
 
@@ -147,6 +147,13 @@ class ShopItemFragment(
         private const val MODE_EDIT = "mode_edit"
         private const val MODE_ADD = "mode_add"
         private const val UNKNOWN_MODE_SCREEN = ""
+
+        fun getInstanceAddItem():ShopItemFragment{
+            return ShopItemFragment(MODE_ADD)
+        }
+        fun getInstanceEditItem(shopItemId: Int):ShopItemFragment{
+            return ShopItemFragment(MODE_EDIT,shopItemId)
+        }
 
         fun newIntentAddItem(context: Context): Intent {
             val intent = Intent(context, ShopItemActivity::class.java)
