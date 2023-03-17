@@ -65,7 +65,7 @@ class ShopItemFragment(
             til_count.error = message
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
