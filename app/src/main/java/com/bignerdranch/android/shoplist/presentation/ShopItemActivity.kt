@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bignerdranch.android.shoplist.R
@@ -13,7 +14,7 @@ import com.bignerdranch.android.shoplist.domain.ShopItem
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(),ShopItemFragment.OnEditingFinishedListener {
     private var screenMode = UNKNOWN_MODE_SCREEN
     private var shopItemId = ShopItem.UNDEFINED_ID
 
@@ -73,5 +74,10 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_ITEM_ID, shopItemId)
             return intent
         }
+    }
+
+    override fun onEditingFinished() {
+        Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
