@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.shoplist.R
+import com.bignerdranch.android.shoplist.databinding.ActivityMainBinding
 import com.bignerdranch.android.shoplist.domain.ShopItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -19,16 +20,15 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     private lateinit var viewModel: MainViewModel
     private lateinit var recycler: RecyclerView
     private lateinit var shopListAdapter: ShopListAdapter
-    private var shopItemContainer: FragmentContainerView? = null
+
     private var screenMode = ""
     private var shopItemId = ShopItem.UNDEFINED_ID
-
+private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        shopItemContainer = findViewById(R.id.shop_item_container)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupRecyclerView()
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         ) {
             shopListAdapter.submitList(it)
         }
-        val buttonAdd = findViewById<FloatingActionButton>(R.id.plus)
+        val buttonAdd = binding.plus 
         buttonAdd.setOnClickListener {
             if (isOnePanelMode()) {
                 val intent = ShopItemActivity.newIntentAddItem(this)
@@ -50,7 +50,8 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     }
 
     private fun isOnePanelMode(): Boolean {
-        return shopItemContainer == null
+
+        return binding.shopItemContainer == null
     }
 
     private fun launchFragment(fragment: Fragment) {
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     }
 
     private fun setupRecyclerView() {
-        recycler = findViewById(R.id.recycler_view)
+        recycler = binding.recyclerView
         shopListAdapter = ShopListAdapter()
         recycler.adapter = shopListAdapter
         recycler.recycledViewPool.setMaxRecycledViews(

@@ -2,13 +2,15 @@
 <layout>
     <data>
         <variable
-            name="adapter"
-            type="com.bignerdranch.android.shoplist.presentation.ShopListAdapter" />
+            name="shopItem"
+            type="com.bignerdranch.android.shoplist.domain.ShopItem" />
     </data>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="4dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="4dp"
@@ -26,14 +28,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Name"
+            android:text="@{shopItem.name}"
+            tools:text="Name"
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 android:textStyle="bold"
-            android:text="1"/>
+            android:text="@{String.valueOf(shopItem.count)}"
+            tools:text="1"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>
