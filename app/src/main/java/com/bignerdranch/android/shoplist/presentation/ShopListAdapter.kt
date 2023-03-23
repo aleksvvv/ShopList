@@ -2,7 +2,11 @@ package com.bignerdranch.android.shoplist.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.bignerdranch.android.shoplist.R
+import com.bignerdranch.android.shoplist.databinding.ItemShopDisabledBinding
+import com.bignerdranch.android.shoplist.databinding.ItemShopEnabledBinding
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
 class ShopListAdapter: androidx.recyclerview.widget.ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
@@ -32,23 +36,38 @@ class ShopListAdapter: androidx.recyclerview.widget.ListAdapter<ShopItem, ShopIt
             parent,
             false
         )
-        return ShopItemViewHolder(view)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            shopItemId,
+            parent,
+            false
+        )
+        return ShopItemViewHolder(binding)
     }
 
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
-
+        val binding = holder.binding
         val shopItem = getItem(position)
-        holder.view.setOnLongClickListener {
+        binding.root.setOnLongClickListener {
             onLongClickListener?.invoke(shopItem)
             true
         }
-        holder.view.setOnClickListener {
+       binding.root.setOnClickListener {
             onClickListener?.invoke(shopItem)
         }
 
-        holder.tv_text.text = shopItem.name
-        holder.tv_count.text = shopItem.count.toString()
+        when(binding){
+            is ItemShopDisabledBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
+            }
+            is ItemShopEnabledBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
+            }
+        }
+
 
     }
 

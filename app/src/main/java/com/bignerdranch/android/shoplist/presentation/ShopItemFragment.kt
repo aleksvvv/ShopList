@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class ShopItemFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Log.d("ShopItemFragment","onAttach")
         if (context is OnEditingFinishedListener){
             onEditingFinishedListener = context
         } else {
@@ -41,24 +43,61 @@ class ShopItemFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
+        Log.d("ShopItemFragment","onCreate")
     }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("ShopItemFragment","onCreateView")
         return inflater.inflate(R.layout.fragment_shop_item, container, false)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("ShopItemFragment","onViewCreated")
         initViews(view)
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
 
         addTextChangeListener()
         launchRightMode()
         observeViewModel()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("ShopItemFragment","onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("ShopItemFragment","onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("ShopItemFragment","onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("ShopItemFragment","onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("ShopItemFragment","onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("ShopItemFragment","onDestroy")
+    }
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("ShopItemFragment","onDetach")
     }
 
         private fun observeViewModel() {
