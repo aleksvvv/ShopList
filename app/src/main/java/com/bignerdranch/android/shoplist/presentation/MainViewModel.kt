@@ -1,13 +1,15 @@
 package com.bignerdranch.android.shoplist.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.shoplist.data.ShopItemRepositoryImpl
 import com.bignerdranch.android.shoplist.domain.*
 
-class MainViewModel: ViewModel() {
+class MainViewModel(application: Application): AndroidViewModel(application) {
 
-    private val repository = ShopItemRepositoryImpl
+    private val repository = ShopItemRepositoryImpl(application)
 
     private val getShopListUseCase = GetShopListUseCase(repository)
     private val deleteShopItemUseCase = DeleteShopItemUseCase(repository)

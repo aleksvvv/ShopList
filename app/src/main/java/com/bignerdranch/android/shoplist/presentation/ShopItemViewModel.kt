@@ -1,5 +1,7 @@
 package com.bignerdranch.android.shoplist.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +11,9 @@ import com.bignerdranch.android.shoplist.domain.EditShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.GetShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
-class ShopItemViewModel : ViewModel() {
+class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = ShopItemRepositoryImpl
+    private val repository = ShopItemRepositoryImpl(application)
 
     private val editShopItemUseCase = EditShopItemUseCase(repository)
     private val addShopItemUseCase = AddShopItemUseCase(repository)

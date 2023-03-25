@@ -4,11 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.bignerdranch.android.shoplist.domain.ShopItem
 
-@Entity("shopItems")
-data class ShopItemDBModel (
+@Entity("shop_items")
+data class ShopItemDbModel (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
     val count: Int,
-    val enabled: Boolean,
-   )
+    val enabled: Boolean
+)
