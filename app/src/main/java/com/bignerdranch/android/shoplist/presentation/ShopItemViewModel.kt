@@ -1,10 +1,7 @@
 package com.bignerdranch.android.shoplist.presentation
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.bignerdranch.android.shoplist.data.ShopItemRepositoryImpl
 import com.bignerdranch.android.shoplist.domain.AddShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.EditShopItemUseCase
@@ -35,14 +32,14 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
-    private val scope = CoroutineScope(Dispatchers.Main)
+
 
     fun addShopItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
         if (validateInput(name, count)) {
             val shopItem = ShopItem(name, count, true)
-            scope.launch {
+            viewModelScope.launch {
                 addShopItemUseCase.addShopItem(shopItem)
             }
 
@@ -51,7 +48,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getShopItem(shopItemId: Int) {
-        scope.launch {
+        viewModelScope.launch {
             val item = getShopItemUseCase.getShopItem(shopItemId)
             _shopItem.value = item
         }
@@ -65,7 +62,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         if (fieldsValid) {
             _shopItem.value?.let {
 
-                scope.launch {
+                viewModelScope.launch {
                     val item = it.copy(name = name, count = count)
                     editShopItemUseCase.editShopItem(item)
                     finishWork()
@@ -111,8 +108,4 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         _shouldCloseScreen.value = Unit
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        scope.cancel()
-    }
 }
