@@ -5,21 +5,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.bignerdranch.android.shoplist.domain.ShopItem
+
 
 @Dao
 interface ShopListDAO {
 
-@Query("SELECT * FROM shopItems")
-    fun getShopItemList():LiveData<List<ShopItemDBModel>>
+    @Query("SELECT * FROM shop_items")
+    fun getShopList(): LiveData<List<ShopItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addShopItem(shopItemDBModel: ShopItemDBModel)
+    fun addShopItem(shopListDbModel: ShopItemDbModel)
 
-    @Query("SELECT FROM shopItems WHERE id =: shopItemId")
+    @Query("DELETE FROM shop_items WHERE id=:shopItemId")
     fun removeShopItem(shopItemId: Int)
 
-    @Query("SELECT FROM shopItems WHERE id =: shopItemId")
-    fun getShopItem(shopItemId: Int):ShopItemDBModel
-
+    @Query("SELECT * FROM shop_items WHERE id=:shopItemId LIMIT 1")
+    fun getShopItem(shopItemId: Int): ShopItemDbModel
 }
