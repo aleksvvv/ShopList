@@ -35,7 +35,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     private val _shouldCloseScreen = MutableLiveData<Unit>()
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     fun addShopItem(inputName: String?, inputCount: String?) {
         val name = parseName(inputName)
@@ -53,7 +53,7 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     fun getShopItem(shopItemId: Int) {
         scope.launch {
             val item = getShopItemUseCase.getShopItem(shopItemId)
-            _shopItem.postValue(item)
+            _shopItem.value = item
         }
 
     }
@@ -70,8 +70,6 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
                     editShopItemUseCase.editShopItem(item)
                     finishWork()
                 }
-
-
             }
         }
     }
