@@ -17,6 +17,7 @@ import com.bignerdranch.android.shoplist.databinding.FragmentShopItemBinding
 import com.bignerdranch.android.shoplist.domain.ShopItem
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import javax.inject.Inject
 
 class ShopItemFragment : Fragment() {
     private lateinit var viewModel: ShopItemViewModel
@@ -30,7 +31,15 @@ class ShopItemFragment : Fragment() {
     private var screenMode: String = UNKNOWN_MODE_SCREEN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (requireActivity().application as ShopApp).component
+    }
+
     override fun onAttach(context: Context) {
+        component.inject(this)
         super.onAttach(context)
         Log.d("ShopItemFragment", "onAttach")
         if (context is OnEditingFinishedListener) {
@@ -60,7 +69,7 @@ class ShopItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d("ShopItemFragment", "onViewCreated")
 
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[ShopItemViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         addTextChangeListener()

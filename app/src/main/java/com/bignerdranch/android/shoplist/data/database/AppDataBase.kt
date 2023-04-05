@@ -1,4 +1,4 @@
-package com.bignerdranch.android.shoplist.data
+package com.bignerdranch.android.shoplist.data.database
 
 import android.app.Application
 import androidx.room.Database

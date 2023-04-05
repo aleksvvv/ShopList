@@ -1,24 +1,23 @@
 package com.bignerdranch.android.shoplist.presentation
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.bignerdranch.android.shoplist.data.ShopItemRepositoryImpl
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.bignerdranch.android.shoplist.domain.AddShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.EditShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.GetShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.ShopItem
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ShopItemRepositoryImpl(application)
-
-    private val editShopItemUseCase = EditShopItemUseCase(repository)
-    private val addShopItemUseCase = AddShopItemUseCase(repository)
-    private val getShopItemUseCase = GetShopItemUseCase(repository)
+class ShopItemViewModel @Inject constructor(
+    application: Application,
+    private val editShopItemUseCase: EditShopItemUseCase,
+    private val addShopItemUseCase: AddShopItemUseCase,
+    private val getShopItemUseCase: GetShopItemUseCase,
+) : AndroidViewModel(application) {
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
@@ -97,14 +96,15 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         return result
     }
 
-   fun resetErrorInputName() {
+    fun resetErrorInputName() {
         _errorInputName.value = false
     }
 
     fun resetErrorInputCount() {
         _errorInputCount.value = false
     }
-    private fun finishWork(){
+
+    private fun finishWork() {
         _shouldCloseScreen.value = Unit
     }
 

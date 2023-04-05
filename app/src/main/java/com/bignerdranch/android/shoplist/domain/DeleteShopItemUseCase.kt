@@ -1,8 +1,12 @@
 package com.bignerdranch.android.shoplist.domain
 
-class DeleteShopItemUseCase(private val shopItemRepository: ShopItemRepository) {
+import javax.inject.Inject
 
-    suspend fun deleteShopItem(shopItem: ShopItem){
+class DeleteShopItemUseCase @Inject constructor(
+    private val shopItemRepository: ShopItemRepository
+) {
+
+    suspend fun deleteShopItem(shopItem: ShopItem) {
         shopItemRepository.deleteShopItem(shopItem)
     }
 }

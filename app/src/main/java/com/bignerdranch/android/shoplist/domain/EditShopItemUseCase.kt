@@ -1,8 +1,11 @@
 package com.bignerdranch.android.shoplist.domain
 
-class EditShopItemUseCase(private val shopItemRepository: ShopItemRepository) {
+import javax.inject.Inject
 
-    suspend fun editShopItem(shopItem: ShopItem){
+class EditShopItemUseCase @Inject constructor(
+    private val shopItemRepository: ShopItemRepository
+) {
+    suspend fun editShopItem(shopItem: ShopItem) {
         shopItemRepository.editShopItem(shopItem)
     }
 }

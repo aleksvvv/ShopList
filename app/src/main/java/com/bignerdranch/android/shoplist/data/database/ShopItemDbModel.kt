@@ -1,4 +1,4 @@
-package com.bignerdranch.android.shoplist.data
+package com.bignerdranch.android.shoplist.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

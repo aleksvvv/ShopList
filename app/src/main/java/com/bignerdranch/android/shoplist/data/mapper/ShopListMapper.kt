@@ -1,12 +1,13 @@
-package com.bignerdranch.android.shoplist.data
+package com.bignerdranch.android.shoplist.data.mapper
 
-import androidx.lifecycle.LiveData
+import com.bignerdranch.android.shoplist.data.database.ShopItemDbModel
 import com.bignerdranch.android.shoplist.domain.ShopItem
+import javax.inject.Inject
 
 
-class ShopListMapper {
+class ShopListMapper @Inject constructor(){
 
-fun mapShopItemToDbModel(shopItem: ShopItem):ShopItemDbModel{
+fun mapShopItemToDbModel(shopItem: ShopItem): ShopItemDbModel {
     return ShopItemDbModel(
         id = shopItem.id,
         name = shopItem.name,

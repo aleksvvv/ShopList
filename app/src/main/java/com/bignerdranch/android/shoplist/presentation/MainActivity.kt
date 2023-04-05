@@ -14,6 +14,7 @@ import com.bignerdranch.android.shoplist.R
 import com.bignerdranch.android.shoplist.databinding.ActivityMainBinding
 import com.bignerdranch.android.shoplist.domain.ShopItem
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
@@ -23,22 +24,30 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
 
     private var screenMode = ""
     private var shopItemId = ShopItem.UNDEFINED_ID
-private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (application as ShopApp).component
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupRecyclerView()
 
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         viewModel.shopList.observe(
             this
         ) {
             shopListAdapter.submitList(it)
         }
-        val buttonAdd = binding.plus 
+        val buttonAdd = binding.plus
         buttonAdd.setOnClickListener {
             if (isOnePanelMode()) {
                 val intent = ShopItemActivity.newIntentAddItem(this)
@@ -103,7 +112,7 @@ private lateinit var binding: ActivityMainBinding
 
     private fun setOnClickListener() {
         shopListAdapter.onClickListener = {
-            if (isOnePanelMode()){
+            if (isOnePanelMode()) {
                 val intent = ShopItemActivity.newIntentEditItem(this, it.id)
                 startActivity(intent)
             } else {
