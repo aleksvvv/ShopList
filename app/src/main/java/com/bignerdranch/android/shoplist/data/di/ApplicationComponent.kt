@@ -6,7 +6,7 @@ import com.bignerdranch.android.shoplist.presentation.ShopItemFragment
 import dagger.BindsInstance
 import dagger.Component
 
-
+@ApplicationScope
 @Component(modules = [DataModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 

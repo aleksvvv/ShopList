@@ -11,13 +11,14 @@ import dagger.Provides
 
 @Module
 interface DataModule {
-
+    @ApplicationScope
     @Binds
     fun bindRepository(impl: ShopItemRepositoryImpl): ShopItemRepository
 
-    companion object{
+    companion object {
+        @ApplicationScope
         @Provides
-        fun provApiService(application: Application): ShopListDAO{
+        fun provApiService(application: Application): ShopListDAO {
             return AppDataBase.getInstance(application).shopListDAO()
         }
     }

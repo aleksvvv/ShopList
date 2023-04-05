@@ -1,9 +1,8 @@
 package com.bignerdranch.android.shoplist.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bignerdranch.android.shoplist.domain.AddShopItemUseCase
 import com.bignerdranch.android.shoplist.domain.EditShopItemUseCase
@@ -13,11 +12,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ShopItemViewModel @Inject constructor(
-    application: Application,
     private val editShopItemUseCase: EditShopItemUseCase,
     private val addShopItemUseCase: AddShopItemUseCase,
     private val getShopItemUseCase: GetShopItemUseCase,
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
