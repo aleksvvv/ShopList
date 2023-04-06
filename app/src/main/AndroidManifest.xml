@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.bignerdranch.android.shoplist"
+            android:name=".data.cp.ShopListProvider"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.bignerdranch.android.shoplist.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +57,14 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
                 launchFragment(ShopItemFragment.getInstanceAddItem())
             }
         }
+        contentResolver.query(
+             Uri.parse( "content://com.bignerdranch.android.shoplist/shop_items"),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
     }
 
     private fun isOnePanelMode(): Boolean {
